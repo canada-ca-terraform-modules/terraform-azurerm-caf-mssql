@@ -3,26 +3,50 @@ locals {
     for x in var.server.SQL_Database :
     "${x.sqldbname}" => x if lookup(x, "deploy", true) != false
   }
+  module_tag = {
+    "module" = basename(abspath(path.module))
+  }
+  tags = merge(local.module_tag, try(var.server.tags, null))
 }
 
 
 resource "azurerm_mssql_server" "mssql" {
-  name                          = "${var.environment}-cio-${var.server["sqlname"]}"
+  name                          = "${var.environment}-cio-${var.server.sqlname}"
   location                      = var.location
-  resource_group_name           = var.server["resource_group_name"]
-  version                       = var.server["mssql_version"]
-  administrator_login           = var.server["administrator_login"]
-  administrator_login_password  = var.server["administrator_login_password"]
-  public_network_access_enabled = false
+  resource_group_name           = var.server.resource_group_name
+  version                       = var.server.mssql_version
+  administrator_login           = var.server.administrator_login
+  administrator_login_password  = var.server.administrator_login_password
+  public_network_access_enabled = try(var.server.public_network_access_enabled, false)
+  connection_policy             = try(var.server.connection_policy, null)
+  minimum_tls_version           = try(var.server.minimum_tls_version, null)
+  tags                          = local.tags
 
   dynamic "azuread_administrator" {
-    for_each = var.server["login_username"] == null ? [] : [var.server["login_username"]]
+    for_each = try(var.server.login_username, null) == null ? [] : [var.server.login_username]
     content {
-      login_username = var.server["login_username"]
+      login_username = var.server.login_username
       tenant_id      = var.active_directory_administrator_tenant_id
       object_id      = var.active_directory_administrator_object_id
     }
   }
+
+  dynamic "identity" {
+    for_each = lookup(var.server, "identity", {}) == {} ? [] : [1]
+
+    content {
+      type = var.server.identity.type
+    }
+  }
+}
+
+resource "azurerm_mssql_firewall_rule" "firewall_rules" {
+  for_each = try(var.server.firewall_rules, {})
+
+  name             = each.value.name
+  server_id        = azurerm_mssql_server.mssql.id
+  start_ip_address = each.value.start_ip_address
+  end_ip_address   = each.value.end_ip_address
 }
 
 resource "azurerm_mssql_database" "mssql" {
