@@ -69,9 +69,10 @@ No modules.
 | <a name="input_DnsPrivatezoneId"></a> [DnsPrivatezoneId](#input\_DnsPrivatezoneId) | n/a | `any` | n/a | yes |
 | <a name="input_active_directory_administrator_object_id"></a> [active\_directory\_administrator\_object\_id](#input\_active\_directory\_administrator\_object\_id) | The Active Directory Administrator Object ID | `string` | `""` | no |
 | <a name="input_active_directory_administrator_tenant_id"></a> [active\_directory\_administrator\_tenant\_id](#input\_active\_directory\_administrator\_tenant\_id) | The Active Directory Administrator Tenant ID | `string` | `""` | no |
-| <a name="input_deploy"></a> [deploy](#input\_deploy) | n/a | `bool` | `false` | no |
 | <a name="input_environment"></a> [environment](#input\_environment) | n/a | `any` | n/a | yes |
+| <a name="input_group"></a> [group](#input\_group) | n/a | `string` | `""` | no |
 | <a name="input_location"></a> [location](#input\_location) | Specifies the supported Azure location where the resource exists | `string` | `"canadacentral"` | no |
+| <a name="input_project"></a> [project](#input\_project) | n/a | `string` | `""` | no |
 | <a name="input_server"></a> [server](#input\_server) | The name of the MSSQL Server | `any` | n/a | yes |
 | <a name="input_subnet_id"></a> [subnet\_id](#input\_subnet\_id) | The ID of the subnet that the MSSQL server will be connected to | `any` | n/a | yes |
 

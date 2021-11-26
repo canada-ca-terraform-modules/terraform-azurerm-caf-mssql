@@ -1,15 +1,23 @@
-# Server
-
-variable "server" {
-  description = "The name of the MSSQL Server"
-  type        = any
+variable "environment" {
+  description = ""
 }
 
+variable "group" {
+  default = ""
+}
 
+variable "project" {
+  default = ""
+}
 
 variable "location" {
   description = "Specifies the supported Azure location where the resource exists"
   default     = "canadacentral"
+}
+
+variable "server" {
+  description = "The name of the MSSQL Server"
+  type        = any
 }
 
 variable "subnet_id" {
@@ -32,12 +40,4 @@ variable "active_directory_administrator_tenant_id" {
 
 variable "DnsPrivatezoneId" {
   description = ""
-}
-
-variable "environment" {
-  description = ""
-}
-
-variable "deploy" {
-  default = false
 }
