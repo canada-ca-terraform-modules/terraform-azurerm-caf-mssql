@@ -2,7 +2,7 @@
 
 variable "server" {
   description = "The name of the MSSQL Server"
-  type = any
+  type        = any
 }
 
 
@@ -39,5 +39,5 @@ variable "environment" {
 }
 
 variable "deploy" {
-  default     = false
+  default = false
 }
