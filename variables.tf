@@ -1,3 +1,8 @@
+variable "tags" {
+  type = any
+  default = null
+}
+
 variable "environment" {
   description = ""
 }
