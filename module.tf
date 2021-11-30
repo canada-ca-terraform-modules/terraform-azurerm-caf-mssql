@@ -38,6 +38,13 @@ resource "azurerm_mssql_server" "mssql" {
       type = var.server.identity.type
     }
   }
+  lifecycle {
+    ignore_changes = [
+      # Ignore changes to tags, e.g. because a management agent
+      # updates these based on some ruleset managed elsewhere.
+      identity,
+    ]
+  }
 }
 
 resource "azurerm_mssql_firewall_rule" "firewall_rules" {
