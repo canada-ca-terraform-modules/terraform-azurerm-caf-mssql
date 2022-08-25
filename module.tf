@@ -14,6 +14,7 @@ resource "azurerm_mssql_server" "mssql" {
   administrator_login           = var.server["administrator_login"]
   administrator_login_password  = var.server["administrator_login_password"]
   public_network_access_enabled = false
+  minimum_tls_version           = "1.2"
 
   dynamic "azuread_administrator" {
     for_each = var.server["login_username"] == null ? [] : [var.server["login_username"]]
