@@ -29,9 +29,9 @@ variable "subnet_id" {
   description = "The ID of the subnet that the MSSQL server will be connected to"
 }
 
-# variable "subnet_id_EP" {
-#   description = "The ID of the subnet that the Apps Service server will be connected to"
-# }
+variable "subnets" {
+  description = "Subnets withing the VNETs"
+}
 
 variable "active_directory_administrator_object_id" {
   description = "The Active Directory Administrator Object ID"
