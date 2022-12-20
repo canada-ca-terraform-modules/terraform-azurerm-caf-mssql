@@ -96,6 +96,14 @@ resource "azurerm_mssql_database" "mssql" {
   # depends_on = [azurerm_mssql_server.mssql]
 }
 
+module "mssql_vitrual_network_rules" {
+  source = "./modules/azurerm_mssql_virtual_network_rule"
+  for_each                             = local.deploydbs
+  mssql_virtual_network_rules          = each.value.azurerm_mssql_virtual_network_rule
+  server_id                            = azurerm_mssql_server.mssql.id
+  subnets                              = var.subnets
+}
+
 resource "azurerm_mssql_server_extended_auditing_policy" "mssql" {
   server_id                               = azurerm_mssql_server.mssql.id
   storage_endpoint                        = azurerm_storage_account.mssql.primary_blob_endpoint
