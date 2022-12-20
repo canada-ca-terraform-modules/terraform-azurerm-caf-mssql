@@ -1,13 +1,18 @@
-# Server
-
-variable "server" {
-  description = "The name of the MSSQL Server"
-  type        = any
+variable "tags" {
+  type = any
+  default = null
 }
 
-variable "tags" {
-  type    = any
-  default = null
+variable "environment" {
+  description = ""
+}
+
+variable "group" {
+  default = ""
+}
+
+variable "project" {
+  default = ""
 }
 
 variable "location" {
@@ -15,12 +20,13 @@ variable "location" {
   default     = "canadacentral"
 }
 
-variable "subnet_id" {
-  description = "The ID of the subnet that the MSSQL server will be connected to"
+variable "server" {
+  description = "The name of the MSSQL Server"
+  type        = any
 }
 
-variable "subnets" {
-  description = "Subnets withing the VNETs"
+variable "subnet_id" {
+  description = "The ID of the subnet that the MSSQL server will be connected to"
 }
 
 # variable "subnet_id_EP" {
@@ -39,12 +45,4 @@ variable "active_directory_administrator_tenant_id" {
 
 variable "DnsPrivatezoneId" {
   description = ""
-}
-
-variable "environment" {
-  description = ""
-}
-
-variable "deploy" {
-  default = false
 }

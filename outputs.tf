@@ -1,21 +1,9 @@
-# output "id" {
-#   value = azurerm_mssql_server.mssql.id
-# }
-
-# output "name" {
-#   value = azurerm_mssql_server.mssql.name
-# }
-
-# output "administrator_login" {
-#   value = azurerm_mssql_server.mssql.administrator_login
-# }
-
-output "server" {
-  value = var.server
+output "mssql_server" {
+  value = azurerm_mssql_server.mssql
 }
 
-# output "mssql_databases" {
-#   value = azurerm_mssql_database.mssql
+# output "server" {
+#   value = var.server
 # }
 
 # Part of a hack for module-to-module dependencies.
