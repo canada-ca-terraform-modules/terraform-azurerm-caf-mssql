@@ -99,7 +99,7 @@ resource "azurerm_mssql_database" "mssql" {
 module "mssql_vitrual_network_rules" {
   source = "./modules/azurerm_mssql_virtual_network_rule"
   for_each                             = local.deploydbs
-  mssql_virtual_network_rules          = each.value.azurerm_mssql_virtual_network_rule
+  mssql_virtual_network_rules          = try(each.value.azurerm_mssql_virtual_network_rule, {})
   server_id                            = azurerm_mssql_server.mssql.id
   subnets                              = var.subnets
 }

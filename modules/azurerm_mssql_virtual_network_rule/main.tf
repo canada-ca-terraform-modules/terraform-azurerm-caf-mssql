@@ -11,7 +11,7 @@ variable "subnets" {
   type = any
 }
 
-resource "azurerm_mssql_virtual_network_rule" "ssfw" {
+resource "azurerm_mssql_virtual_network_rule" "mssql_virtual_network_rule" {
   for_each                             = var.mssql_virtual_network_rules
   ignore_missing_vnet_service_endpoint = each.value.ignore_missing_vnet_service_endpoint
   name                                 = each.key
