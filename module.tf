@@ -40,8 +40,6 @@ resource "azurerm_mssql_server" "mssql" {
   }
   lifecycle {
     ignore_changes = [
-      # Ignore changes to tags, e.g. because a management agent
-      # updates these based on some ruleset managed elsewhere.
       identity,
     ]
   }
@@ -93,7 +91,6 @@ resource "azurerm_mssql_database" "mssql" {
       week_of_year      = each.value.week_of_year
     }
   }
-  # depends_on = [azurerm_mssql_server.mssql]
 }
 
 module "mssql_vitrual_network_rules" {
@@ -110,7 +107,6 @@ resource "azurerm_mssql_server_extended_auditing_policy" "mssql" {
   storage_account_access_key              = azurerm_storage_account.mssql.primary_access_key
   storage_account_access_key_is_secondary = false
   retention_in_days                       = 6
-  # depends_on                              = [azurerm_mssql_server.mssql, azurerm_storage_account.mssql]
 }
 
 resource "azurerm_mssql_server_security_alert_policy" "mssql" {
@@ -124,7 +120,6 @@ resource "azurerm_mssql_server_security_alert_policy" "mssql" {
     "Data_Exfiltration"
   ]
   retention_days = 30
-  # depends_on     = [azurerm_mssql_server.mssql, azurerm_storage_account.mssql]
 }
 
 resource "azurerm_private_endpoint" "mssql" {
@@ -144,5 +139,4 @@ resource "azurerm_private_endpoint" "mssql" {
     subresource_names              = ["sqlServer"]
     is_manual_connection           = false
   }
-  # depends_on = [azurerm_mssql_server.mssql]
 }
