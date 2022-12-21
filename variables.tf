@@ -1,18 +1,28 @@
-# Server
-
-variable "server" {
-  description = "The name of the MSSQL Server"
-  type        = any
+variable "tags" {
+  type = any
+  default = null
 }
 
-variable "tags" {
-  type    = any
-  default = null
+variable "environment" {
+  description = ""
+}
+
+variable "group" {
+  default = ""
+}
+
+variable "project" {
+  default = ""
 }
 
 variable "location" {
   description = "Specifies the supported Azure location where the resource exists"
   default     = "canadacentral"
+}
+
+variable "server" {
+  description = "The name of the MSSQL Server"
+  type        = any
 }
 
 variable "subnet_id" {
@@ -22,10 +32,6 @@ variable "subnet_id" {
 variable "subnets" {
   description = "Subnets withing the VNETs"
 }
-
-# variable "subnet_id_EP" {
-#   description = "The ID of the subnet that the Apps Service server will be connected to"
-# }
 
 variable "active_directory_administrator_object_id" {
   description = "The Active Directory Administrator Object ID"
@@ -39,12 +45,4 @@ variable "active_directory_administrator_tenant_id" {
 
 variable "DnsPrivatezoneId" {
   description = ""
-}
-
-variable "environment" {
-  description = ""
-}
-
-variable "deploy" {
-  default = false
 }
