@@ -79,6 +79,7 @@ resource "azurerm_mssql_database" "mssql" {
     for_each = each.value.policyretention_days == null ? [] : [each.value.policyretention_days]
     content {
       retention_days = each.value.policyretention_days
+      backup_interval_in_hours  = each.value.backup_interval_in_hours
     }
   }
 
