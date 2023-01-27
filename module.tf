@@ -38,7 +38,8 @@ resource "azurerm_mssql_database" "mssql" {
   dynamic "short_term_retention_policy" {
     for_each = each.value.policyretention_days == null ? [] : [each.value.policyretention_days]
     content {
-      retention_days = each.value.policyretention_days
+      retention_days           = each.value.policyretention_days
+      backup_interval_in_hours = try(each.value.backup_interval_in_hours, 12)
     }
   }
 
@@ -56,11 +57,11 @@ resource "azurerm_mssql_database" "mssql" {
 }
 
 module "mssql_vitrual_network_rules" {
-  source = "./modules/azurerm_mssql_virtual_network_rule"
-  for_each                             = local.deploydbs
-  mssql_virtual_network_rules          = each.value.azurerm_mssql_virtual_network_rule
-  server_id                            = azurerm_mssql_server.mssql.id
-  subnets                              = var.subnets
+  source                      = "./modules/azurerm_mssql_virtual_network_rule"
+  for_each                    = local.deploydbs
+  mssql_virtual_network_rules = each.value.azurerm_mssql_virtual_network_rule
+  server_id                   = azurerm_mssql_server.mssql.id
+  subnets                     = var.subnets
 }
 
 resource "azurerm_mssql_server_extended_auditing_policy" "mssql" {
