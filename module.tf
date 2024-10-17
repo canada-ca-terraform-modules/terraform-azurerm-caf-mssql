@@ -78,8 +78,8 @@ resource "azurerm_mssql_database" "mssql" {
   dynamic "short_term_retention_policy" {
     for_each = each.value.policyretention_days == null ? [] : [each.value.policyretention_days]
     content {
-      retention_days = each.value.policyretention_days
-      backup_interval_in_hours  = try(each.value.backup_interval_in_hours, 12)
+      retention_days           = each.value.policyretention_days
+      backup_interval_in_hours = try(each.value.backup_interval_in_hours, 12)
     }
   }
 
@@ -95,11 +95,11 @@ resource "azurerm_mssql_database" "mssql" {
 }
 
 module "mssql_vitrual_network_rules" {
-  source = "./modules/azurerm_mssql_virtual_network_rule"
-  for_each                             = local.deploydbs
-  mssql_virtual_network_rules          = try(each.value.azurerm_mssql_virtual_network_rule, {})
-  server_id                            = azurerm_mssql_server.mssql.id
-  subnets                              = var.subnets
+  source                      = "./modules/azurerm_mssql_virtual_network_rule"
+  for_each                    = local.deploydbs
+  mssql_virtual_network_rules = try(each.value.azurerm_mssql_virtual_network_rule, {})
+  server_id                   = azurerm_mssql_server.mssql.id
+  subnets                     = var.subnets
 }
 
 resource "azurerm_mssql_server_extended_auditing_policy" "mssql" {
@@ -129,9 +129,17 @@ resource "azurerm_private_endpoint" "mssql" {
   resource_group_name = var.server.resource_group_name
   subnet_id           = var.subnet_id
 
-  private_dns_zone_group {
-    name                 = "${var.server.sqlname}privatednszonegroup"
-    private_dns_zone_ids = [var.DnsPrivatezoneId]
+  # private_dns_zone_group {
+  #   name                 = "${var.server.sqlname}privatednszonegroup"
+  #   private_dns_zone_ids = [var.DnsPrivatezoneId]
+  # }
+
+  dynamic "private_dns_zone_group" {
+    for_each = var.deploy_private_dns_zone_group ? [1] : []
+    content {
+      name                 = "${var.server.sqlname}privatednszonegroup"
+      private_dns_zone_ids = [var.DnsPrivatezoneId]
+    }
   }
 
   private_service_connection {

@@ -1,5 +1,5 @@
 variable "tags" {
-  type = any
+  type    = any
   default = null
 }
 
@@ -45,4 +45,10 @@ variable "active_directory_administrator_tenant_id" {
 
 variable "DnsPrivatezoneId" {
   description = ""
+}
+
+variable "deploy_private_dns_zone_group" {
+  description = ""
+  default     = true
+  type        = bool
 }
