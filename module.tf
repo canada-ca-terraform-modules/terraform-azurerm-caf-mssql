@@ -128,6 +128,7 @@ resource "azurerm_private_endpoint" "mssql" {
   location            = var.location
   resource_group_name = var.server.resource_group_name
   subnet_id           = var.subnet_id
+  tags                = try(var.server.private_endpoint_tags, {})
 
   # private_dns_zone_group {
   #   name                 = "${var.server.sqlname}privatednszonegroup"
@@ -147,5 +148,9 @@ resource "azurerm_private_endpoint" "mssql" {
     private_connection_resource_id = azurerm_mssql_server.mssql.id
     subresource_names              = ["sqlServer"]
     is_manual_connection           = false
+  }
+
+    lifecycle {
+    ignore_changes = [private_dns_zone_group]
   }
 }
